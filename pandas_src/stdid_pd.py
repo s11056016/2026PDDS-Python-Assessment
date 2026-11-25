@@ -21,7 +21,7 @@ Create a DataFrame from the users and orders lists
 # DataFrame Creation of Users
 
 # Your Code Here
-users_df = None  # Replace this with your solution
+users_df = pd.DataFrame(users)
 
 print("Users DataFrame:")
 print(users_df)
@@ -36,7 +36,7 @@ print(users_df)
 # DataFrame Creation of Orders
 
 # Your Code Here
-orders_df = None  # Replace this with your solution
+orders_df = pd.DataFrame(orders)
 
 print("Orders DataFrame:")
 print(orders_df)
@@ -58,7 +58,7 @@ Merge the users_df and orders_df DataFrames based on user_id and id.
 '''
 
 # Your Code Here
-merged_df = None  # Replace this with your solution
+merged_df = pd.merge(users_df, orders_df, left_on="id", right_on="user_id")
 
 print("Merged DataFrame:")
 print(merged_df)
@@ -85,7 +85,15 @@ the index.
 '''
 
 # Your Code Here
-grouped_sorted_df = None  # Replace this with your solution
+grouped_sorted_df = (
+    merged_df
+    .groupby("name")
+    .agg(
+        total_price=("price", "sum"),
+        order_count=("id_y", "count"),
+    )
+    .sort_values("total_price", ascending=False)
+)
 
 print("Grouped and Sorted DataFrame:")
 print(grouped_sorted_df)
@@ -106,7 +114,7 @@ The Series index should be the user's name (i.e., highest_total_price_user.name 
 '''
 
 # Your Code Here
-highest_total_price_user = None  # Replace this with your solution
+highest_total_price_user = grouped_sorted_df.iloc[0]
 
 print("Highest Total Price User:")
 print(highest_total_price_user)
